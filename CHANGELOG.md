@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/Toandos/stalwart-operator/compare/v1.0.0...v1.0.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* Chart not being published ([456ea91](https://github.com/Toandos/stalwart-operator/commit/456ea915b7df0e141b299981a53dcd397ca6cd18))
+
 ## 1.0.0 (2026-08-27)
 
 
