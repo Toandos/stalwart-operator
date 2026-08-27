@@ -41,5 +41,5 @@ jobs:
       - name: Push Helm chart
         run: |
           helm push \
-            "accounts-${{ inputs.version }}.tgz" \
+            "stalwart-operator-${{ inputs.version }}.tgz" \
             oci://ghcr.io/toandos/charts
