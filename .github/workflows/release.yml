@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+
+    steps:
+      - name: Run release please
+        uses: googleapis/release-please-action@v5
+        id: release
+        with:
+          release-type: simple
+
+  publish-image:
+    needs: release
+    if: needs.release.outputs.release_created == 'true'
+    uses: ./.github/workflows/publish-image.yml
+    with:
+      tag_name: ${{ needs.release.outputs.tag_name }}
+      version: ${{ needs.release.outputs.version }}
+    permissions:
+      contents: read
+      packages: write
+    
+  publish-chart:
+    needs: release
+    if: needs.release.outputs.release_created == 'true'
+    uses: ./.github/workflows/publish-chart.yml
+    with:
+      tag_name: ${{ needs.release.outputs.tag_name }}
+      version: ${{ needs.release.outputs.version }}
+    permissions:
+      contents: read
+      packages: write
