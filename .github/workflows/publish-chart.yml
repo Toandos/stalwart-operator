@@ -28,6 +28,13 @@ jobs:
       - name: Build installer
         run: make build-installer IMG=ghcr.io/toandos/stalwart-operator:${{ inputs.version }}
 
+      - name: Install kubebuilder
+        run: |
+          curl -L -o kubebuilder \
+            "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)"
+          chmod +x kubebuilder
+          sudo mv kubebuilder /usr/local/bin/
+
       - name: Generate helm chart
         run: kubebuilder edit --plugins=helm/v2-alpha
 
