@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Toandos/stalwart-operator/compare/v1.1.1...v1.1.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* **cd:** Install dependency kubebuilder ([8f24247](https://github.com/Toandos/stalwart-operator/commit/8f2424708f19773ee9fcba4a4dcf1bb808ee067a))
+
 ## [1.1.1](https://github.com/Toandos/stalwart-operator/compare/v1.1.0...v1.1.1) (2026-08-31)
 
 
