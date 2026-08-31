@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/Toandos/stalwart-operator/compare/v1.0.1...v1.1.0) (2026-08-31)
+
+
+### Features
+
+* **cd:** Autogenerate helm chart ([418b1e0](https://github.com/Toandos/stalwart-operator/commit/418b1e0c22827f6ccf2c74d8c4d6e12b68319e14))
+
 ## [1.0.1](https://github.com/Toandos/stalwart-operator/compare/v1.0.0...v1.0.1) (2026-08-27)
 
 
