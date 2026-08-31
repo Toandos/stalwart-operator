@@ -25,9 +25,6 @@ jobs:
         with:
           ref: ${{ inputs.tag_name }}
 
-      - name: Build installer
-        run: make build-installer IMG=ghcr.io/toandos/stalwart-operator:${{ inputs.version }}
-
       - name: Install kubebuilder
         run: |
           curl -L -o kubebuilder \
@@ -36,7 +33,9 @@ jobs:
           sudo mv kubebuilder /usr/local/bin/
 
       - name: Generate helm chart
-        run: kubebuilder edit --plugins=helm/v2-alpha
+        run: |
+          export IMG=ghcr.io/toandos/stalwart-operator:${{ inputs.version }}
+          kubebuilder edit --plugins=helm/v2-alpha --force
 
       - name: Log in to GHCR
         uses: docker/login-action@v4
