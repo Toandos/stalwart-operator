@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Toandos/stalwart-operator/compare/v1.1.0...v1.1.1) (2026-08-31)
+
+
+### Bug Fixes
+
+* **cd:** Typo - Missing character ([fba6626](https://github.com/Toandos/stalwart-operator/commit/fba6626854cf9beb41c94da424d67dd9495fea9f))
+
 ## [1.1.0](https://github.com/Toandos/stalwart-operator/compare/v1.0.1...v1.1.0) (2026-08-31)
 
 
