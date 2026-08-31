@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/Toandos/stalwart-operator/compare/v1.1.2...v1.1.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* **cd:** Image not set correctly in chart ([9b826bb](https://github.com/Toandos/stalwart-operator/commit/9b826bb24aee83e8bcf3d4b656fc5c067b3156d7))
+
 ## [1.1.2](https://github.com/Toandos/stalwart-operator/compare/v1.1.1...v1.1.2) (2026-08-31)
 
 
