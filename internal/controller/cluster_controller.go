@@ -73,7 +73,7 @@ func (r *ClusterReconciler) getCluster(
 			logger.Info("Resource has been deleted")
 			return nil, nil
 		}
-		return nil, fmt.Errorf("Cannot get managed cluster: %w", err)
+		return nil, fmt.Errorf("cannot get managed cluster resource: %w", err)
 	}
 	return cluster, nil
 }
