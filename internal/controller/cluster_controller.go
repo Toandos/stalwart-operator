@@ -18,13 +18,21 @@ package controller
 
 import (
 	"context"
+	"fmt"
 
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/utils/ptr"
+
+	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	log "sigs.k8s.io/controller-runtime/pkg/log"
 
-	stalwartv1alpha1 "github.com/Toandos/stalwart-operator/api/v1alpha1"
+	apiv1alpha1 "github.com/Toandos/stalwart-operator/api/v1alpha1"
 )
 
 // ClusterReconciler reconciles a Cluster object
@@ -36,28 +44,100 @@ type ClusterReconciler struct {
 // +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters/finalizers,verbs=update
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
-// Reconcile is part of the main kubernetes reconciliation loop which aims to
-// move the current state of the cluster closer to the desired state.
-// TODO(user): Modify the Reconcile function to compare the state specified by
-// the Cluster object against the actual cluster state, and then
-// perform operations to make the cluster state reflect the state specified by
-// the user.
-//
-// For more details, check Reconcile and its Result here:
-// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.24.1/pkg/reconcile
 func (r *ClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = logf.FromContext(ctx)
+	cluster, err := r.getCluster(ctx, req)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	if cluster == nil {
+		return ctrl.Result{}, nil
+	}
 
-	// TODO(user): your logic here
+	if err := r.reconcileDeployment(ctx, cluster); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	return ctrl.Result{}, nil
+}
+
+func (r *ClusterReconciler) getCluster(
+	ctx context.Context,
+	req ctrl.Request,
+) (*apiv1alpha1.Cluster, error) {
+	logger := log.FromContext(ctx)
+	cluster := &apiv1alpha1.Cluster{}
+	if err := r.Get(ctx, req.NamespacedName, cluster); err != nil {
+		if apierrs.IsNotFound(err) {
+			logger.Info("Resource has been deleted")
+			return nil, nil
+		}
+		return nil, fmt.Errorf("Cannot get managed cluster: %w", err)
+	}
+	return cluster, nil
+}
+
+func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *apiv1alpha1.Cluster) error {
+	deployment := &appsv1.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      cluster.Name,
+			Namespace: cluster.Namespace,
+		},
+	}
+
+	_, err := controllerutil.CreateOrUpdate(ctx, r.Client, deployment, func() error {
+		labels := map[string]string{
+			"app.kubernetes.io/name":       "stalwart",
+			"app.kubernetes.io/instance":   cluster.Name,
+			"app.kubernetes.io/managed-by": "cluster-operator",
+		}
+
+		deployment.Spec.Replicas = ptr.To(int32(1))
+
+		deployment.Spec.Selector = &metav1.LabelSelector{
+			MatchLabels: labels,
+		}
+
+		deployment.Spec.Template = corev1.PodTemplateSpec{
+			ObjectMeta: metav1.ObjectMeta{
+				Labels: labels,
+			},
+			Spec: corev1.PodSpec{
+				Containers: []corev1.Container{
+					{
+						Name:  "stalwart",
+						Image: "stalwartlabs/stalwart:latest",
+						Ports: []corev1.ContainerPort{
+							{
+								Name:          "http",
+								ContainerPort: 8080,
+							},
+							{
+								Name:          "smtp",
+								ContainerPort: 25,
+							},
+						},
+					},
+				},
+			},
+		}
+
+		// Make the Cluster the owner of the Deployment.
+		return controllerutil.SetControllerReference(
+			cluster,
+			deployment,
+			r.Scheme,
+		)
+	})
+
+	return err
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *ClusterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&stalwartv1alpha1.Cluster{}).
-		Named("cluster").
+		For(&apiv1alpha1.Cluster{}).
+		Owns(&appsv1.Deployment{}).
 		Complete(r)
 }
