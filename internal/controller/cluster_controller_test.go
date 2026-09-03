@@ -56,6 +56,12 @@ var _ = Describe("Cluster Controller", func() {
 					},
 					Spec: stalwartv1alpha1.ClusterSpec{
 						Instances: 1,
+						DataStore: stalwartv1alpha1.StalwartDataStore{
+							Type: "RocksDb",
+							RocksDb: &stalwartv1alpha1.RocksDbDataStore{
+								Path: "/var/lib/stalwart/",
+							},
+						},
 					},
 				}
 				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
