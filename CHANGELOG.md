@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/Toandos/stalwart-operator/compare/v1.3.0...v1.4.0) (2026-09-03)
+
+
+### Features
+
+* **cluster:** Create more resources taking stalwart docs as rough guidelines ([5ce1c42](https://github.com/Toandos/stalwart-operator/commit/5ce1c42b99dda55acf8fbcf3bd589a6869441e7a))
+
+
+### Bug Fixes
+
+* **cluster:** Add missing permissions ([d184dbc](https://github.com/Toandos/stalwart-operator/commit/d184dbcbfac4371139c44622db08f0f1b70f0011))
+
 ## [1.3.0](https://github.com/Toandos/stalwart-operator/compare/v1.2.0...v1.3.0) (2026-09-03)
 
 
