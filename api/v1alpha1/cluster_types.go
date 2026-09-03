@@ -23,8 +23,10 @@ import (
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	// +optional
-	Foo *string `json:"foo,omitempty"`
+	// Number of instances in the cluster
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:default:=1
+	Instances int `json:"instances"`
 }
 
 // ClusterStatus defines the observed state of Cluster.

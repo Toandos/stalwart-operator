@@ -93,7 +93,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 			"app.kubernetes.io/managed-by": "cluster-operator",
 		}
 
-		deployment.Spec.Replicas = ptr.To(int32(1))
+		deployment.Spec.Replicas = ptr.To(int32(cluster.Spec.Instances))
 
 		deployment.Spec.Selector = &metav1.LabelSelector{
 			MatchLabels: labels,
