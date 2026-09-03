@@ -54,7 +54,9 @@ var _ = Describe("Cluster Controller", func() {
 						Name:      resourceName,
 						Namespace: resourceNamespace,
 					},
-					// TODO(user): Specify other spec details if needed.
+					Spec: stalwartv1alpha1.ClusterSpec{
+						Instances: 1,
+					},
 				}
 				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
 			}
