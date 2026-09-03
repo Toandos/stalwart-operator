@@ -163,7 +163,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 								ContainerPort: 25,
 							},
 							{
-								Name:          portNameSMTP,
+								Name:          portNameSMTPS,
 								ContainerPort: 465,
 							},
 							{
