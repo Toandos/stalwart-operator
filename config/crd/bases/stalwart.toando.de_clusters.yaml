@@ -39,12 +39,197 @@ spec:
           spec:
             description: spec defines the desired state of Cluster
             properties:
+              dataStore:
+                description: Datastore the stalwart instances should use
+                properties:
+                  foundationDb:
+                    properties:
+                      clusterFile:
+                        description: Path to the cluster file for the FoundationDB
+                          cluster
+                        type: string
+                      datacenterId:
+                        description: Data center ID
+                        type: string
+                      machineId:
+                        description: Machine ID in the FoundationDB cluster
+                        type: string
+                      transactionRetryDelay:
+                        description: Transaction maximum retry delay
+                        type: integer
+                      transactionRetryLimit:
+                        description: Transaction maximum retry delay
+                        maximum: 1000
+                        minimum: 1
+                        type: integer
+                      transactionTimeout:
+                        description: Transaction timeout
+                        type: integer
+                    type: object
+                  mysql:
+                    properties:
+                      allowInvalidCerts:
+                        description: Allow invalid TLS certificates when connecting
+                          to the store
+                        type: boolean
+                      authSecret:
+                        description: Password to connect to the store
+                        type: string
+                      authUsername:
+                        description: Username to connect to the store
+                        type: string
+                      database:
+                        description: Name of the database
+                        type: string
+                      host:
+                        description: Hostname of the database server
+                        type: string
+                      maxAllowedPacket:
+                        description: Maximum size of a packet in bytes
+                        maximum: 1073741824
+                        minimum: 1024
+                        type: integer
+                      poolMaxConnections:
+                        description: Maximum number of connections to the store
+                        maximum: 8192
+                        minimum: 1
+                        type: integer
+                      poolMinConnections:
+                        description: Minimum number of connections to the store
+                        maximum: 8192
+                        minimum: 1
+                        type: integer
+                      port:
+                        description: Port of the database server
+                        maximum: 65535
+                        minimum: 1
+                        type: integer
+                      timeout:
+                        description: Connection timeout to the database
+                        type: integer
+                      useTls:
+                        description: Use TLS to connect to the store
+                        type: boolean
+                    required:
+                    - authSecret
+                    - host
+                    type: object
+                  postgresql:
+                    properties:
+                      allowInvalidCerts:
+                        description: Allow invalid TLS certificates when connecting
+                          to the store
+                        type: boolean
+                      authSecret:
+                        description: Password to connect to the store
+                        type: string
+                      authUsername:
+                        description: Username to connect to the store
+                        type: string
+                      database:
+                        description: Name of the database
+                        type: string
+                      host:
+                        description: Hostname of the database server
+                        type: string
+                      options:
+                        description: Additional connection options
+                        type: string
+                      poolMaxConnections:
+                        description: Maximum number of connections to the store
+                        maximum: 8192
+                        minimum: 1
+                        type: integer
+                      poolRecyclingMethod:
+                        description: Method to use when recycling connections in the
+                          pool
+                        type: string
+                      port:
+                        description: Port of the database server
+                        maximum: 65535
+                        minimum: 1
+                        type: integer
+                      timeout:
+                        description: Connection timeout to the database
+                        type: integer
+                      useTls:
+                        description: Use TLS to connect to the store
+                        type: boolean
+                    required:
+                    - authSecret
+                    - host
+                    type: object
+                  rocksDb:
+                    properties:
+                      blobSize:
+                        description: Minimum size of a blob to store in the blob store,
+                          smaller blobs are stored in the metadata store
+                        maximum: 1048576
+                        minimum: 1024
+                        type: integer
+                      bufferSize:
+                        description: Total amount of memory shared by the write buffers
+                          (memtables) of every column family. Higher values batch
+                          more writes in memory before they are flushed to disk
+                        maximum: 4294967296
+                        minimum: 8388608
+                        type: integer
+                      cacheSize:
+                        description: Total amount of memory shared by the block caches
+                          of every column family, used to cache data blocks, indexes
+                          and bloom filters read from disk
+                        maximum: 17179869184
+                        minimum: 8388608
+                        type: integer
+                      path:
+                        description: Path to the RocksDB data directory
+                        type: string
+                      poolWorkers:
+                        description: Number of worker threads to use for the store,
+                          defaults to the number of cores
+                        maximum: 64
+                        minimum: 1
+                        type: integer
+                    required:
+                    - path
+                    type: object
+                  sqlite:
+                    properties:
+                      path:
+                        description: Path to the SQLite data directory
+                        type: string
+                      poolMaxConnections:
+                        description: Maximum number of connections to the store
+                        maximum: 8192
+                        minimum: 1
+                        type: integer
+                      poolWorkers:
+                        description: Number of worker threads to use for the store,
+                          defaults to the number of cores
+                        maximum: 64
+                        minimum: 1
+                        type: integer
+                    required:
+                    - path
+                    type: object
+                  type:
+                    enum:
+                    - RocksDb
+                    - Sqlite
+                    - FoundationDb
+                    - PostgreSql
+                    - MySql
+                    type: string
+                required:
+                - type
+                type: object
               instances:
                 default: 1
                 description: Number of instances in the cluster
                 minimum: 1
                 type: integer
             required:
+            - dataStore
             - instances
             type: object
           status:

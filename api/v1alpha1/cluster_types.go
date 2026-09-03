@@ -27,6 +27,10 @@ type ClusterSpec struct {
 	// +kubebuilder:validation:Minimum=1
 	// +kubebuilder:default:=1
 	Instances int `json:"instances"`
+
+	// Datastore the stalwart instances should use
+	// +required
+	DataStore StalwartDataStore `json:"dataStore"`
 }
 
 // ClusterStatus defines the observed state of Cluster.

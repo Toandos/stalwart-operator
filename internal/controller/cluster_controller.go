@@ -115,11 +115,13 @@ func (r *ClusterReconciler) reconcileConfigMap(ctx context.Context, cluster *api
 	}
 
 	_, err := controllerutil.CreateOrUpdate(ctx, r.Client, configMap, func() error {
+		json, err := cluster.Spec.DataStore.MarshalJSON()
+		if err != nil {
+			return err
+		}
+
 		configMap.Data = map[string]string{
-			"config.json": `{
-				"@type": "PostgreSql",
-				"host":  "postgres.postgres",
-			}`,
+			"config.json": string(json),
 		}
 
 		// Make the Cluster the owner of the ConfigMap.
