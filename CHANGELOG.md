@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/Toandos/stalwart-operator/compare/v1.2.0...v1.3.0) (2026-09-03)
+
+
+### Features
+
+* **cluster:** Add instances spec ([2e85778](https://github.com/Toandos/stalwart-operator/commit/2e85778360f869c1c27261abcff71fa4207b305f))
+
+
+### Bug Fixes
+
+* Run make generate ([6eb857d](https://github.com/Toandos/stalwart-operator/commit/6eb857d91490c8d09c6c325da13253ef4a052ff7))
+
 ## [1.2.0](https://github.com/Toandos/stalwart-operator/compare/v1.1.3...v1.2.0) (2026-09-01)
 
 
