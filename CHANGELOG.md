@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.1](https://github.com/Toandos/stalwart-operator/compare/v1.4.0...v1.4.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* **cluster:** Duplicate port caused by typo ([b2624b4](https://github.com/Toandos/stalwart-operator/commit/b2624b4252200ec0bd8f674bbf8ce84931d7c31d))
+* **cluster:** Missing permissions & more ([1f3acd6](https://github.com/Toandos/stalwart-operator/commit/1f3acd6ea19b5fb5e79b9da9fe0965bac5281d66))
+* Missing files caused by previous commits ([aa0a610](https://github.com/Toandos/stalwart-operator/commit/aa0a610a44b972352aeba0aee63194d112b1c4f7))
+* Missing files caused by previous commits (No 2) ([f7af5cf](https://github.com/Toandos/stalwart-operator/commit/f7af5cf2a4575c7d5bf43cb4e4de6ec1637e21bf))
+
 ## [1.4.0](https://github.com/Toandos/stalwart-operator/compare/v1.3.0...v1.4.0) (2026-09-03)
 
 
