@@ -183,29 +183,28 @@ type MySqlDataStore struct {
 	AuthSecret string `json:"authSecret"`
 }
 
-func (dataStore StalwartDataStore) values() (any, error) {
-	var config any
+func assertValue[T any](config *T, storeType string) (any, error) {
+	if config == nil {
+		return nil, fmt.Errorf("configuration for datastore of type %q is missing", storeType)
+	}
+	return config, nil
+}
 
+func (dataStore StalwartDataStore) values() (any, error) {
 	switch dataStore.Type {
 	case "RocksDb":
-		config = dataStore.PostgreSql
+		return assertValue(dataStore.RocksDb, dataStore.Type)
 	case "Sqlite":
-		config = dataStore.Sqlite
+		return assertValue(dataStore.Sqlite, dataStore.Type)
 	case "FoundationDb":
-		config = dataStore.FoundationDb
+		return assertValue(dataStore.FoundationDb, dataStore.Type)
 	case "PostgreSql":
-		config = dataStore.PostgreSql
+		return assertValue(dataStore.PostgreSql, dataStore.Type)
 	case "MySql":
-		config = dataStore.MySql
+		return assertValue(dataStore.MySql, dataStore.Type)
 	default:
 		return nil, fmt.Errorf("unsupported datastore type %q", dataStore.Type)
 	}
-
-	if config == nil {
-		return nil, fmt.Errorf("configuration for datastore of type %q is missing", dataStore.Type)
-	}
-
-	return config, nil
 }
 
 func (dataStore StalwartDataStore) MarshalJSON() ([]byte, error) {
