@@ -39,8 +39,13 @@ spec:
           spec:
             description: spec defines the desired state of Cluster
             properties:
-              foo:
-                type: string
+              instances:
+                default: 1
+                description: Number of instances in the cluster
+                minimum: 1
+                type: integer
+            required:
+            - instances
             type: object
           status:
             description: status defines the observed state of Cluster

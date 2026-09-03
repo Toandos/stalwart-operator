@@ -36,18 +36,26 @@ import (
 	apiv1alpha1 "github.com/Toandos/stalwart-operator/api/v1alpha1"
 )
 
+const (
+	portNameSMTP       = "smtp"
+	portNameSMTPS      = "smtps"
+	portNameSubmission = "submission"
+	portNameIMAP       = "imap"
+	portNameIMAPS      = "imaps"
+	portNamePOP3       = "pop3"
+	portNamePOP3S      = "pop3s"
+	portNameSieve      = "sieve"
+	portNameHTTP       = "http"
+	portNameHTTPS      = "https"
+	portNameMgmt       = "mgmt"
+)
+
 // ClusterReconciler reconciles a Cluster object
 type ClusterReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=clusters/finalizers,verbs=update
-// +kubebuilder:rbac:groups=apps,resources=statefulset,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups="",resources=configmaps,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups="",resources=services,verbs=get;list;watch;create;update;patch;delete
 func (r *ClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	cluster, err := r.getCluster(ctx, req)
 	if err != nil {
@@ -151,47 +159,47 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 						Image: "stalwartlabs/stalwart:latest",
 						Ports: []corev1.ContainerPort{
 							{
-								Name:          "smtp",
+								Name:          portNameSMTP,
 								ContainerPort: 25,
 							},
 							{
-								Name:          "smtps",
+								Name:          portNameSMTP,
 								ContainerPort: 465,
 							},
 							{
-								Name:          "submission",
+								Name:          portNameSubmission,
 								ContainerPort: 587,
 							},
 							{
-								Name:          "imap",
+								Name:          portNameIMAP,
 								ContainerPort: 143,
 							},
 							{
-								Name:          "imaps",
+								Name:          portNameIMAPS,
 								ContainerPort: 993,
 							},
 							{
-								Name:          "pop3",
+								Name:          portNamePOP3,
 								ContainerPort: 110,
 							},
 							{
-								Name:          "pop3s",
+								Name:          portNamePOP3S,
 								ContainerPort: 995,
 							},
 							{
-								Name:          "sieve",
+								Name:          portNameSieve,
 								ContainerPort: 4190,
 							},
 							{
-								Name:          "http",
+								Name:          portNameHTTP,
 								ContainerPort: 80,
 							},
 							{
-								Name:          "https",
+								Name:          portNameHTTPS,
 								ContainerPort: 443,
 							},
 							{
-								Name:          "mgmt",
+								Name:          portNameMgmt,
 								ContainerPort: 8080,
 							},
 						},
@@ -203,7 +211,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 							ProbeHandler: corev1.ProbeHandler{
 								HTTPGet: &corev1.HTTPGetAction{
 									Path: "/healthz/live",
-									Port: intstr.FromString("mgmt"),
+									Port: intstr.FromString(portNameMgmt),
 								},
 							},
 							InitialDelaySeconds: 5,
@@ -213,7 +221,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 							ProbeHandler: corev1.ProbeHandler{
 								HTTPGet: &corev1.HTTPGetAction{
 									Path: "/healthz/ready",
-									Port: intstr.FromString("mgmt"),
+									Port: intstr.FromString(portNameMgmt),
 								},
 							},
 							InitialDelaySeconds: 30,
@@ -268,9 +276,9 @@ func (r *ClusterReconciler) reconcileHeadlessService(ctx context.Context, cluste
 		service.Spec.Selector = getLabels(cluster)
 		service.Spec.Ports = []corev1.ServicePort{
 			{
-				Name:       "mgmt",
+				Name:       portNameMgmt,
 				Port:       8080,
-				TargetPort: intstr.FromString("mgmt"),
+				TargetPort: intstr.FromString(portNameMgmt),
 			},
 		}
 
@@ -297,59 +305,59 @@ func (r *ClusterReconciler) reconcileService(ctx context.Context, cluster *apiv1
 		service.Spec.Selector = getLabels(cluster)
 		service.Spec.Ports = []corev1.ServicePort{
 			{
-				Name:       "smtp",
+				Name:       portNameSMTP,
 				Port:       25,
-				TargetPort: intstr.FromString("smtp"),
+				TargetPort: intstr.FromString(portNameSMTP),
 			},
 			{
-				Name:       "smtps",
+				Name:       portNameSMTPS,
 				Port:       465,
-				TargetPort: intstr.FromString("smtp"),
+				TargetPort: intstr.FromString(portNameSMTPS),
 			},
 			{
-				Name:       "submission",
+				Name:       portNameSubmission,
 				Port:       587,
-				TargetPort: intstr.FromString("submission"),
+				TargetPort: intstr.FromString(portNameSubmission),
 			},
 			{
-				Name:       "imap",
+				Name:       portNameIMAP,
 				Port:       143,
-				TargetPort: intstr.FromString("imap"),
+				TargetPort: intstr.FromString(portNameIMAP),
 			},
 			{
-				Name:       "imaps",
+				Name:       portNameIMAPS,
 				Port:       993,
-				TargetPort: intstr.FromString("imaps"),
+				TargetPort: intstr.FromString(portNameIMAPS),
 			},
 			{
-				Name:       "pop3",
+				Name:       portNamePOP3,
 				Port:       110,
-				TargetPort: intstr.FromString("pop3"),
+				TargetPort: intstr.FromString(portNamePOP3),
 			},
 			{
-				Name:       "pop3s",
+				Name:       portNamePOP3S,
 				Port:       995,
-				TargetPort: intstr.FromString("pop3s"),
+				TargetPort: intstr.FromString(portNamePOP3S),
 			},
 			{
-				Name:       "sieve",
+				Name:       portNameSieve,
 				Port:       4190,
-				TargetPort: intstr.FromString("sieve"),
+				TargetPort: intstr.FromString(portNameSieve),
 			},
 			{
-				Name:       "http",
+				Name:       portNameHTTP,
 				Port:       80,
-				TargetPort: intstr.FromString("http"),
+				TargetPort: intstr.FromString(portNameHTTP),
 			},
 			{
-				Name:       "https",
+				Name:       portNameHTTPS,
 				Port:       443,
-				TargetPort: intstr.FromString("https"),
+				TargetPort: intstr.FromString(portNameHTTPS),
 			},
 			{
-				Name:       "mgmt",
+				Name:       portNameMgmt,
 				Port:       8080,
-				TargetPort: intstr.FromString("mgmt"),
+				TargetPort: intstr.FromString(portNameMgmt),
 			},
 		}
 
