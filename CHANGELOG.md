@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/Toandos/stalwart-operator/compare/v1.1.3...v1.2.0) (2026-09-01)
+
+
+### Features
+
+* **cluster:** Reconcile deployment ([b400a5e](https://github.com/Toandos/stalwart-operator/commit/b400a5e9aa2358379ca7446b6e7e81c3f1de792c))
+
+
+### Bug Fixes
+
+* **cluster:** Error is uppercase ([cec9c67](https://github.com/Toandos/stalwart-operator/commit/cec9c67bac477f3654ffbe13088e2ca61ee582e0))
+
 ## [1.1.3](https://github.com/Toandos/stalwart-operator/compare/v1.1.2...v1.1.3) (2026-08-31)
 
 
