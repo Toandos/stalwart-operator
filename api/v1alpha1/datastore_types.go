@@ -207,7 +207,7 @@ func (dataStore StalwartDataStore) values() (any, error) {
 	}
 }
 
-func (dataStore StalwartDataStore) MarshalJSON() ([]byte, error) {
+func (dataStore StalwartDataStore) ToStalwartConfig() ([]byte, error) {
 	values, err := dataStore.values()
 	if err != nil {
 		return nil, err

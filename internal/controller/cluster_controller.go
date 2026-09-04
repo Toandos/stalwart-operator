@@ -115,7 +115,7 @@ func (r *ClusterReconciler) reconcileConfigMap(ctx context.Context, cluster *api
 	}
 
 	_, err := controllerutil.CreateOrUpdate(ctx, r.Client, configMap, func() error {
-		json, err := cluster.Spec.DataStore.MarshalJSON()
+		json, err := cluster.Spec.DataStore.ToStalwartConfig()
 		if err != nil {
 			return err
 		}
