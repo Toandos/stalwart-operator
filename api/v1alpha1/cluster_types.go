@@ -17,6 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
@@ -28,9 +29,9 @@ type ClusterSpec struct {
 	// +kubebuilder:default:=1
 	Instances int `json:"instances"`
 
-	// Datastore the stalwart instances should use
+	// Configuration the stalwart instances should use
 	// +required
-	DataStore StalwartDataStore `json:"dataStore"`
+	ConfigMapRef *corev1.LocalObjectReference `json:"configMapRef"`
 }
 
 // ClusterStatus defines the observed state of Cluster.
