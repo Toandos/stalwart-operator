@@ -21,7 +21,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -56,9 +56,11 @@ var _ = Describe("Cluster Controller", func() {
 						Namespace: resourceNamespace,
 					},
 					Spec: stalwartv1alpha1.ClusterSpec{
-						Instances: 1,
-						ConfigMapRef: &v1.LocalObjectReference{
-							Name: "stalwart-config",
+						ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
+							LocalObjectReference: corev1.LocalObjectReference{
+								Name: "stalwart-config",
+							},
+							Key: "config.json",
 						},
 					},
 				}

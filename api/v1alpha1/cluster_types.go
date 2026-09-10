@@ -31,7 +31,7 @@ type ClusterSpec struct {
 
 	// Configuration the stalwart instances should use
 	// +required
-	ConfigMapRef *corev1.LocalObjectReference `json:"configMapRef"`
+	ConfigMapKeyRef *corev1.ConfigMapKeySelector `json:"configMapKeyRef"`
 
 	// List of custom environment variables to be set
 	Env []corev1.EnvVar `json:"env,omitempty"`

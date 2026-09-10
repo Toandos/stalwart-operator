@@ -175,7 +175,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 						},
 						Args: []string{
 							"--config",
-							"/etc/stalwart/config.json",
+							"/etc/stalwart/" + cluster.Spec.ConfigMapKeyRef.Key,
 						},
 						LivenessProbe: &corev1.Probe{
 							ProbeHandler: corev1.ProbeHandler{
@@ -200,8 +200,8 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 						VolumeMounts: []corev1.VolumeMount{
 							{
 								Name:      "config",
-								MountPath: "/etc/stalwart/config.json",
-								SubPath:   "config.json",
+								MountPath: "/etc/stalwart/" + cluster.Spec.ConfigMapKeyRef.Key,
+								SubPath:   cluster.Spec.ConfigMapKeyRef.Key,
 								ReadOnly:  true,
 							},
 						},
@@ -213,7 +213,15 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 						Name: "config",
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
-								LocalObjectReference: *cluster.Spec.ConfigMapRef,
+								LocalObjectReference: corev1.LocalObjectReference{
+									Name: cluster.Spec.ConfigMapKeyRef.Name,
+								},
+								Items: []corev1.KeyToPath{
+									{
+										Key:  cluster.Spec.ConfigMapKeyRef.Key,
+										Path: cluster.Spec.ConfigMapKeyRef.Key,
+									},
+								},
 							},
 						},
 					},
