@@ -56,6 +56,7 @@ var _ = Describe("Cluster Controller", func() {
 						Namespace: resourceNamespace,
 					},
 					Spec: stalwartv1alpha1.ClusterSpec{
+						Instances: 1,
 						ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 							LocalObjectReference: corev1.LocalObjectReference{
 								Name: "stalwart-config",
