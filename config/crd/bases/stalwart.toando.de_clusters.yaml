@@ -39,9 +39,12 @@ spec:
           spec:
             description: spec defines the desired state of Cluster
             properties:
-              configMapRef:
+              configMapKeyRef:
                 description: Configuration the stalwart instances should use
                 properties:
+                  key:
+                    description: The key to select.
+                    type: string
                   name:
                     default: ""
                     description: |-
@@ -51,6 +54,12 @@ spec:
                       almost certainly wrong.
                       More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                     type: string
+                  optional:
+                    description: Specify whether the ConfigMap or its key must be
+                      defined
+                    type: boolean
+                required:
+                - key
                 type: object
                 x-kubernetes-map-type: atomic
               env:
@@ -216,7 +225,7 @@ spec:
                 minimum: 1
                 type: integer
             required:
-            - configMapRef
+            - configMapKeyRef
             - instances
             type: object
           status:
