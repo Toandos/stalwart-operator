@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.1](https://github.com/Toandos/stalwart-operator/compare/v1.6.0...v1.6.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **cluster:** Newest manifests not generated ([9796c6b](https://github.com/Toandos/stalwart-operator/commit/9796c6bcd17cf1b3127975e41224b532d8ffcec5))
+* **cluster:** Test fails - Missing value ([0cec9e3](https://github.com/Toandos/stalwart-operator/commit/0cec9e366e2d879e73f0aed6268ab445ec7e4234))
+* **cluster:** Use ConfigMapKeySelector to reference specific key ([c5cc6a5](https://github.com/Toandos/stalwart-operator/commit/c5cc6a574a9b3b72a346c89546ab7bbaafa7a8fd))
+
 ## [1.6.0](https://github.com/Toandos/stalwart-operator/compare/v1.5.0...v1.6.0) (2026-09-10)
 
 
