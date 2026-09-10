@@ -32,7 +32,9 @@ rules:
 - apiGroups:
   - stalwart.toando.de
   resources:
+  - accounts
   - clusters
+  - domains
   verbs:
   - create
   - delete
@@ -44,13 +46,17 @@ rules:
 - apiGroups:
   - stalwart.toando.de
   resources:
+  - accounts/finalizers
   - clusters/finalizers
+  - domains/finalizers
   verbs:
   - update
 - apiGroups:
   - stalwart.toando.de
   resources:
+  - accounts/status
   - clusters/status
+  - domains/status
   verbs:
   - get
   - patch

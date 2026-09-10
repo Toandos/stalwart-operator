@@ -3,6 +3,8 @@
 # It should be run by config/default
 resources:
 - bases/stalwart.toando.de_clusters.yaml
+- bases/stalwart.toando.de_domains.yaml
+- bases/stalwart.toando.de_accounts.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:
