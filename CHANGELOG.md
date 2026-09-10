@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/Toandos/stalwart-operator/compare/v1.4.1...v1.5.0) (2026-09-04)
+
+
+### Features
+
+* **cluster:** User provided data store ([5f3adac](https://github.com/Toandos/stalwart-operator/commit/5f3adac2a99367e47567b8fe429103711ccc916e))
+
+
+### Bug Fixes
+
+* **cluster:** Handle missing datastore specs ([11673d7](https://github.com/Toandos/stalwart-operator/commit/11673d7d35c85de7e6cb934698991456ad9dff28))
+* **cluster:** Overwriting marshal json interfering with kubernetes ([64602f9](https://github.com/Toandos/stalwart-operator/commit/64602f993c7fb98dbe5b223bc079bd9c78e75f98))
+* **cluster:** Tests missing specs ([afcd152](https://github.com/Toandos/stalwart-operator/commit/afcd152a1f9ca658f91716efb27f21895a3794b2))
+
 ## [1.4.1](https://github.com/Toandos/stalwart-operator/compare/v1.4.0...v1.4.1) (2026-09-03)
 
 
