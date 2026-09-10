@@ -65,9 +65,6 @@ func (r *ClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{}, nil
 	}
 
-	if err := r.reconcileConfigMap(ctx, cluster); err != nil {
-		return ctrl.Result{}, err
-	}
 	if err := r.reconcileDeployment(ctx, cluster); err != nil {
 		return ctrl.Result{}, err
 	}
@@ -104,35 +101,6 @@ func getLabels(cluster *apiv1alpha1.Cluster) map[string]string {
 		"app.kubernetes.io/managed-by": "cluster-operator",
 	}
 	return labels
-}
-
-func (r *ClusterReconciler) reconcileConfigMap(ctx context.Context, cluster *apiv1alpha1.Cluster) error {
-	configMap := &corev1.ConfigMap{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      cluster.Name + "-config",
-			Namespace: cluster.Namespace,
-		},
-	}
-
-	_, err := controllerutil.CreateOrUpdate(ctx, r.Client, configMap, func() error {
-		json, err := cluster.Spec.DataStore.ToStalwartConfig()
-		if err != nil {
-			return err
-		}
-
-		configMap.Data = map[string]string{
-			"config.json": string(json),
-		}
-
-		// Make the Cluster the owner of the ConfigMap.
-		return controllerutil.SetControllerReference(
-			cluster,
-			configMap,
-			r.Scheme,
-		)
-	})
-
-	return err
 }
 
 func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *apiv1alpha1.Cluster) error {
@@ -237,6 +205,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 								ReadOnly:  true,
 							},
 						},
+						Env: cluster.Spec.Env,
 					},
 				},
 				Volumes: []corev1.Volume{
@@ -244,9 +213,7 @@ func (r *ClusterReconciler) reconcileDeployment(ctx context.Context, cluster *ap
 						Name: "config",
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
-								LocalObjectReference: corev1.LocalObjectReference{
-									Name: statefulSet.Name + "-config",
-								},
+								LocalObjectReference: *cluster.Spec.ConfigMapRef,
 							},
 						},
 					},
