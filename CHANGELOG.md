@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.0](https://github.com/Toandos/stalwart-operator/compare/v1.5.0...v1.6.0) (2026-09-10)
+
+
+### Features
+
+* **cluster:** Replace explicit data stores with configMapRef ([d43beee](https://github.com/Toandos/stalwart-operator/commit/d43beee728157dd22e5f2a68cd638688a1530227))
+
+
+### Bug Fixes
+
+* **cluster:** Controller & tests crash caused by incomplete feature ([6c43d3e](https://github.com/Toandos/stalwart-operator/commit/6c43d3e7ac37178305648fcf26edb08f01d598b3))
+
 ## [1.5.0](https://github.com/Toandos/stalwart-operator/compare/v1.4.1...v1.5.0) (2026-09-04)
 
 
