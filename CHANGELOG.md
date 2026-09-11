@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/Toandos/stalwart-operator/compare/v1.7.0...v1.8.0) (2026-09-11)
+
+
+### Features
+
+* **api:** Introduce generic JMAPObject resource to represent all jmap resources ([427d208](https://github.com/Toandos/stalwart-operator/commit/427d208f6e7b228afcc6d4830e9dd7df049f3e1c))
+
+
+### Bug Fixes
+
+* **main:** Referencing old controllers ([8256e3f](https://github.com/Toandos/stalwart-operator/commit/8256e3f2c19e627512c747e2f1645d2c71fb45fa))
+
 ## [1.7.0](https://github.com/Toandos/stalwart-operator/compare/v1.6.1...v1.7.0) (2026-09-10)
 
 
