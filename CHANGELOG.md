@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/Toandos/stalwart-operator/compare/v1.6.1...v1.7.0) (2026-09-10)
+
+
+### Features
+
+* **api:** Add domain & account resources ([4b82a74](https://github.com/Toandos/stalwart-operator/commit/4b82a7460bc23bffbe11a998d013a7f0a7948dce))
+
 ## [1.6.1](https://github.com/Toandos/stalwart-operator/compare/v1.6.0...v1.6.1) (2026-09-10)
 
 
