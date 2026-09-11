@@ -30,7 +30,7 @@ import (
 	stalwartv1alpha1 "github.com/Toandos/stalwart-operator/api/v1alpha1"
 )
 
-var _ = Describe("Account Controller", func() {
+var _ = Describe("JMAPObject Controller", func() {
 	Context("When reconciling a resource", func() {
 		const (
 			resourceName      = "test-resource"
@@ -43,13 +43,13 @@ var _ = Describe("Account Controller", func() {
 			Name:      resourceName,
 			Namespace: resourceNamespace,
 		}
-		account := &stalwartv1alpha1.Account{}
+		jmapobject := &stalwartv1alpha1.JMAPObject{}
 
 		BeforeEach(func() {
-			By("creating the custom resource for the Kind Account")
-			err := k8sClient.Get(ctx, typeNamespacedName, account)
+			By("creating the custom resource for the Kind JMAPObject")
+			err := k8sClient.Get(ctx, typeNamespacedName, jmapobject)
 			if err != nil && errors.IsNotFound(err) {
-				resource := &stalwartv1alpha1.Account{
+				resource := &stalwartv1alpha1.JMAPObject{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      resourceName,
 						Namespace: resourceNamespace,
@@ -62,16 +62,16 @@ var _ = Describe("Account Controller", func() {
 
 		AfterEach(func() {
 			// TODO(user): Cleanup logic after each test, like removing the resource instance.
-			resource := &stalwartv1alpha1.Account{}
+			resource := &stalwartv1alpha1.JMAPObject{}
 			err := k8sClient.Get(ctx, typeNamespacedName, resource)
 			Expect(err).NotTo(HaveOccurred())
 
-			By("Cleanup the specific resource instance Account")
+			By("Cleanup the specific resource instance JMAPObject")
 			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
 		})
 		It("should successfully reconcile the resource", func() {
 			By("Reconciling the created resource")
-			controllerReconciler := &AccountReconciler{
+			controllerReconciler := &JMAPObjectReconciler{
 				Client: k8sClient,
 				Scheme: k8sClient.Scheme(),
 			}

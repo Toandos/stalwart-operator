@@ -5,6 +5,7 @@ resources:
 - bases/stalwart.toando.de_clusters.yaml
 - bases/stalwart.toando.de_domains.yaml
 - bases/stalwart.toando.de_accounts.yaml
+- bases/stalwart.toando.de_jmapobjects.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:

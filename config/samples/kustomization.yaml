@@ -3,4 +3,5 @@ resources:
 - stalwart_v1alpha1_cluster.yaml
 - stalwart_v1alpha1_domain.yaml
 - stalwart_v1alpha1_account.yaml
+- stalwart_v1alpha1_jmapobject.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

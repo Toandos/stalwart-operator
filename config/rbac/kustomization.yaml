@@ -29,6 +29,9 @@ resources:
 # default, aiding admins in cluster management. Those roles are
 # not used by the stalwart-operator itself. You can comment the following lines
 # if you do not want those helpers be installed with your Project.
+- jmapobject_admin_role.yaml
+- jmapobject_editor_role.yaml
+- jmapobject_viewer_role.yaml
 - account_admin_role.yaml
 - account_editor_role.yaml
 - account_viewer_role.yaml

@@ -18,33 +18,33 @@ package v1alpha1
 
 import (
 	corev1 "k8s.io/api/core/v1"
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
-// DomainSpec defines the desired state of Domain
-type DomainSpec struct {
-	// The stalwart cluster of the domain
+// JMAPObjectSpec defines the desired state of JMAPObject
+type JMAPObjectSpec struct {
+	// The stalwart cluster the jmap object is applied to
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="cluster reference is immutable after creation"
-	ClusterRef corev1.LocalObjectReference `json:"cluster"`
+	// +required
+	ClusterRef corev1.LocalObjectReference `json:"clusterRef"`
+
+	// The type of the jmap object
+	// +required
+	Type string `json:"type"`
+
+	// The data of the jmap object
+	// +required
+	Data apiextensionsv1.JSON `json:"data"`
 }
 
-// DomainStatus defines the observed state of Domain.
-type DomainStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+// JMAPObjectStatus defines the observed state of JMAPObject.
+type JMAPObjectStatus struct {
+	// The internal id of the created jmap object
+	// +optional
+	StalwartID string `json:"stalwartID,omitempty"`
 
-	// For Kubernetes API conventions, see:
-	// https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties
-
-	// conditions represent the current state of the Domain resource.
-	// Each condition has a unique type and reflects the status of a specific aspect of the resource.
-	//
-	// Standard condition types include:
-	// - "Available": the resource is fully functional
-	// - "Progressing": the resource is being created or updated
-	// - "Degraded": the resource failed to reach or maintain its desired state
-	//
 	// The status of each condition is one of True, False, or Unknown.
 	// +listType=map
 	// +listMapKey=type
@@ -55,35 +55,35 @@ type DomainStatus struct {
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-// Domain is the Schema for the domains API
-type Domain struct {
+// JMAPObject is the Schema for the jmapobjects API
+type JMAPObject struct {
 	metav1.TypeMeta `json:",inline"`
 
 	// metadata is a standard object metadata
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitzero"`
 
-	// spec defines the desired state of Domain
+	// spec defines the desired state of JMAPObject
 	// +required
-	Spec DomainSpec `json:"spec"`
+	Spec JMAPObjectSpec `json:"spec"`
 
-	// status defines the observed state of Domain
+	// status defines the observed state of JMAPObject
 	// +optional
-	Status DomainStatus `json:"status,omitzero"`
+	Status JMAPObjectStatus `json:"status,omitzero"`
 }
 
 // +kubebuilder:object:root=true
 
-// DomainList contains a list of Domain
-type DomainList struct {
+// JMAPObjectList contains a list of JMAPObject
+type JMAPObjectList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitzero"`
-	Items           []Domain `json:"items"`
+	Items           []JMAPObject `json:"items"`
 }
 
 func init() {
 	SchemeBuilder.Register(func(s *runtime.Scheme) error {
-		s.AddKnownTypes(SchemeGroupVersion, &Domain{}, &DomainList{})
+		s.AddKnownTypes(SchemeGroupVersion, &JMAPObject{}, &JMAPObjectList{})
 		return nil
 	})
 }

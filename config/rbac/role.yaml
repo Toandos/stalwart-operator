@@ -32,9 +32,8 @@ rules:
 - apiGroups:
   - stalwart.toando.de
   resources:
-  - accounts
   - clusters
-  - domains
+  - jmapobjects
   verbs:
   - create
   - delete
@@ -46,17 +45,15 @@ rules:
 - apiGroups:
   - stalwart.toando.de
   resources:
-  - accounts/finalizers
   - clusters/finalizers
-  - domains/finalizers
+  - jmapobjects/finalizers
   verbs:
   - update
 - apiGroups:
   - stalwart.toando.de
   resources:
-  - accounts/status
   - clusters/status
-  - domains/status
+  - jmapobjects/status
   verbs:
   - get
   - patch

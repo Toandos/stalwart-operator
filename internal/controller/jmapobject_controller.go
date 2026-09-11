@@ -27,26 +27,26 @@ import (
 	stalwartv1alpha1 "github.com/Toandos/stalwart-operator/api/v1alpha1"
 )
 
-// AccountReconciler reconciles a Account object
-type AccountReconciler struct {
+// JMAPObjectReconciler reconciles a JMAPObject object
+type JMAPObjectReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
 
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=accounts,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=accounts/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=stalwart.toando.de,resources=accounts/finalizers,verbs=update
+// +kubebuilder:rbac:groups=stalwart.toando.de,resources=jmapobjects,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=stalwart.toando.de,resources=jmapobjects/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=stalwart.toando.de,resources=jmapobjects/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the Account object against the actual cluster state, and then
+// the JMAPObject object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.24.1/pkg/reconcile
-func (r *AccountReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *JMAPObjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = logf.FromContext(ctx)
 
 	// TODO(user): your logic here
@@ -55,9 +55,9 @@ func (r *AccountReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *AccountReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *JMAPObjectReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&stalwartv1alpha1.Account{}).
-		Named("account").
+		For(&stalwartv1alpha1.JMAPObject{}).
+		Named("jmapobject").
 		Complete(r)
 }
