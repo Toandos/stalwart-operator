@@ -21,6 +21,8 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	corev1 "k8s.io/api/core/v1"
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -54,7 +56,17 @@ var _ = Describe("JMAPObject Controller", func() {
 						Name:      resourceName,
 						Namespace: resourceNamespace,
 					},
-					// TODO(user): Specify other spec details if needed.
+					Spec: stalwartv1alpha1.JMAPObjectSpec{
+						ClusterRef: corev1.LocalObjectReference{
+							Name: "stalwart",
+						},
+						Type: "Domain",
+						Data: apiextensionsv1.JSON{
+							Raw: []byte(`{
+								"name": "example.com"
+							}`),
+						},
+					},
 				}
 				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
 			}
